@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Powered Smart Bin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(rgba(0, 60, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url("https://images.unsplash.com/photo-1524594154907-5c5dc5c9e453") no-repeat center/cover,
+                  url("https://images.unsplash.com/photo-1508873699372-7aeab60b44f0") no-repeat center/cover;
+      background-attachment: fixed;
+      color: #fff;
+    }
+    header {
+      background: rgba(46, 125, 50, 0.9);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    header img {
+      width: 80px;
+      height: 80px;
+    }
+    h1 { margin: 0; font-size: 2.5em; }
+    p { margin: 5px 0 0; font-size: 1.2em; }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+    .bin-container {
+      display: flex;
+      gap: 25px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .bin {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 180px;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+    .bin:hover {
+      transform: scale(1.08);
+    }
+    .bin img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    #uploadPreview {
+      margin-top: 20px;
+      max-width: 220px;
+      border: 3px dashed #ccc;
+      padding: 10px;
+      background: white;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 20px;
+      color: #2e7d32;
+      font-weight: bold;
+      text-shadow: 1px 1px #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://media.giphy.com/media/hpXdHPfFI5wTABdDx9/giphy.gif" alt="Recycling Logo">
+    <div>
+      <h1>AI Powered Smart Bin</h1>
+      <p>Sorts waste automatically using AI and sensors</p>
+    </div>
+  </header>
+  <main>
+    <h2>Upload a waste item image</h2>
+    <input type="file" id="fileInput" accept="image/*">
+    <div id="uploadPreview"></div>
+    <button onclick="classifyWaste()">Classify Waste</button>
+
+    <div class="bin-container">
+      <div class="bin" id="plastic-bin">
+        <img src="https://img.icons8.com/color/96/plastic.png" alt="Plastic Bin">
+        <p>Plastic</p>
+      </div>
+      <div class="bin" id="food-bin">
+        <img src="https://img.icons8.com/color/96/meal.png" alt="Food Bin">
+        <p>Food</p>
+      </div>
+      <div class="bin" id="glass-bin">
+        <img src="https://img.icons8.com/color/96/wine-bottle.png" alt="Glass Bin">
+        <p>Glass</p>
+      </div>
+      <div class="bin" id="metal-bin">
+        <img src="https://img.icons8.com/color/96/metal.png" alt="Metal Bin">
+        <p>Metal</p>
+      </div>
+    </div>
+
+    <h3 id="result"></h3>
+  </main>
+
+  <script>
+    const preview = document.getElementById('uploadPreview');
+    const fileInput = document.getElementById('fileInput');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          preview.innerHTML = `<img src="${event.target.result}" style="max-width:100%">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function classifyWaste() {
+      // Simulated AI classification (random selection)
+      const categories = ['Plastic', 'Food', 'Glass', 'Metal'];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      document.getElementById('result').innerText = `Detected: ${randomCategory} Waste`;
+
+      // Highlight the correct bin
+      document.querySelectorAll('.bin').forEach(bin => {
+        bin.style.border = 'none';
+      });
+      document.getElementById(randomCategory.toLowerCase() + '-bin').style.border = '4px solid green';
+    }
+  </script>
+</body>
+</html>
